@@ -2,159 +2,135 @@ package Examenfinal;
 import java.util.*;
 public class Appproducto {
 
+	private static final Object STOCK_SEGURIDAD = null;
 	private static int cantidadMaximaProd=100;
 	private static Producto [] productos = new Producto[cantidadMaximaProd];
-	private static int contProductos=0;
+	private static int contadorProductos=0;
 	
 	
 	
 	public static void main(String[] args) {
 		var sc = new Scanner(System.in);
-		
-		
-		int opcion;
-		
-		do {
-			
-			System.out.println("----MENÚ PRODUCTOS----");
-			System.out.println("1. Introducir datos nuevo inventario.");
-			System.out.println("2. Nuevo producto.");
-			System.out.println("3. Buscar producto y modificar información.");
-			System.out.println("4. Eliminar producto.");
-			System.out.println("5. Mostrar valor total del inventario.");
-			System.out.println("6. Informe rotura de stock.");
-			System.out.println("7. Salir.");
-			System.out.println("Introduzca una opcion: ");
-			opcion = sc.nextInt();
-			
-			switch(opcion) {
-			
-			case 1:
-				
-				introducirDatos();
-				
-				break;
-			case 2:
-				
-				nuevoProducto();
-				
-				break;
-			case 3: 
-				
-				buscarymodificar();
-				
-				break;
-			case 4:
-				
-				eliminarProducto();
-				
-				break;
-			case 5:
-				
-				totalInventario();
-				
-				break;
-			case 6:
-				
-				roturaStock();
-				
-				break;
-			case 7:
-				
-				System.out.println("Saliendo del menú...");
-				break;
-			
-			}
-			
-		}while(opcion != 7);
-		
-	}
-	
-	//Apartado d
-	public static void nuevoProducto() {
-		var sc = new Scanner(System.in);
-		
-		System.out.println("Introduzca el nombre del artículo: ");
-		String nombre = sc.nextLine();
-		System.out.println("Introduzca la cantidad disponible: ");
-		int cantidad = sc.nextInt();
-		System.out.println("Introduzca el precio: ");
-		double precio = sc.nextDouble();
-		
-		productos[contProductos++] = new Producto(nombre, cantidad, precio);
-		System.out.println("Nuevo producto registrado con éxito");
-		
-	}
-	
-	//Apartado f
-	public static void eliminarProducto() {
-		var sc = new Scanner(System.in);
-		
-		System.out.println("Introduzca el nombre el producto a eliminar: ");
-		String nombre = sc.nextLine();
-		
-		for(int i=0; i < contProductos; i++) {
-			
-			if(productos[i].getNombre().equalsIgnoreCase(nombre)) {
-				
-				for (int j = i; j < contProductos - 1; j++) {
-					
-					productos[contProductos--]= productos [j + i];
-					System.out.println("Producto eliminado correctamente");
-					
-				}
-			}
-		}
-		
-	}
-	
-	//Apartado g
-	public static void totalInventario() {
-		System.out.println("El total de artículos es: " + contProductos);
-	}
-	
-	//Apartado e
-	public static void buscarymodificar() {
-		var sc = new Scanner(System.in);
-		
-		System.out.println("Introduzca el artículo a modificar: ");
-		String nombre = sc.nextLine();
-		
-		for (int i =0; i < contProductos; i++) {
-			if(productos[i].getNombre().equalsIgnoreCase(nombre)) {
-				
-				productos[i].setCantidadDispo(65);
-				productos[i].setPrecio(54.20);
-				
-			}
-		}
-	}
-	
-	//Apartado c
-	public static void introducirDatos() {
-		var sc = new Scanner(System.in);
-		
-		for(int i=0; i < productos.length; i++) {
-				System.out.println("Introduzca nombre del artículo: " + (1+i));
-				String nombre = sc.nextLine();
-				System.out.println("Introduzca cantidad del artículo: " + (1+i));
-				int cantidad = sc.nextInt();
-				System.out.println("Introduzca precio del producto: " + (1+i));
-				
-				System.out.println(productos[i]);
-			}			
-	}
-	
-	public static void roturaStock() {
-		var sc = new Scanner(System.in);
-		
-		for(int i =0; i < contProductos; i++) {
-			if(productos[i].getCantidadDispo() < 50) {
-				System.out.println("Rotura de stock del producto.");
-			}else {
-				break;
-			}
-		}
-	}
+       Producto inventario = new Producto();
+        inventario.mostrarMenu();
+    }
 
+    public void mostrarMenu() {
+    	var sc = new Scanner(System.in);
+        int opcion;
+        do {
+            System.out.println("\nMenú de Gestión de Inventario");
+            System.out.println("1. Introducir datos nuevo inventario");
+            System.out.println("2. Nuevo producto");
+            System.out.println("3. Buscar producto y modificar información");
+            System.out.println("4. Eliminar producto");
+            System.out.println("5. Mostrar valor total del inventario");
+            System.out.println("6. Informe rotura de stock");
+            System.out.println("7. Salir");
+            System.out.print("Elija una opción: ");
+            opcion = sc.nextInt();
+            sc.nextLine();
+
+            switch (opcion) {
+                case 1: introducirDatosInventario(); break;
+                case 2: nuevoProducto(); break;
+                case 3: buscarYModificarProducto(); break;
+                case 4: eliminarProducto(); break;
+                case 5: mostrarValorTotalInventario(); break;
+                case 6: informeRoturaStock(); break;
+                case 7: System.out.println("Saliendo del sistema..."); break;
+                default: System.out.println("Opción no válida. Intente de nuevo.");
+            }
+        } while (opcion != 7);
+    }
+
+    public void introducirDatosInventario() {
+    	var sc = new Scanner(System.in);
+        System.out.print("¿Cuántos productos desea ingresar?: ");
+        int cantidad = sc.nextInt();
+        sc.nextLine();
+
+        for (int i = 0; i < cantidad; i++) {
+            if (contadorProductos >= productos.length) {
+                System.out.println("El inventario está lleno.");
+                break;
+            }
+            System.out.println("Ingrese los datos del producto " + (i + 1));
+            nuevoProducto();
+        }
+    }
+
+    public void nuevoProducto() {
+    	var sc = new Scanner(System.in);
+        if (contadorProductos >= productos.length) {
+            System.out.println("El inventario está lleno.");
+            return;
+        }
+
+        System.out.print("Nombre del producto: ");
+        String nombre = sc.nextLine();
+        System.out.print("Stock del producto: ");
+        int stock = sc.nextInt();
+        System.out.print("Precio del producto: ");
+        double precio = sc.nextDouble();
+        sc.nextLine();
+
+        productos[contadorProductos++] = new Producto(nombre, stock, precio);
+        System.out.println("Producto agregado correctamente.");
+    }
+
+    public void buscarYModificarProducto() {
+    	var sc = new Scanner(System.in);
+        System.out.print("Ingrese el nombre del producto a buscar: ");
+        String nombre = sc.nextLine();
+
+        for (int i = 0; i < contadorProductos; i++) {
+            if (productos[i].nombre.equalsIgnoreCase(nombre)) {
+                System.out.println("Producto encontrado. Ingrese la nueva información.");
+                System.out.print("Nuevo stock: ");
+                productos[i].stock = sc.nextInt();
+                System.out.print("Nuevo precio: ");
+                productos[i].precio = sc.nextDouble();
+                sc.nextLine();
+                System.out.println("Información del producto actualizada.");
+                return;
+            }
+        }
+        System.out.println("Producto no encontrado.");
+    }
+
+    public void eliminarProducto() {
+    	var sc = new Scanner(System.in);
+        System.out.print("Ingrese el nombre del producto a eliminar: ");
+        String nombre = sc.nextLine();
+
+        for (int i = 0; i < contadorProductos; i++) {
+            if (productos[i].nombre.equalsIgnoreCase(nombre)) {
+                for (int j = i; j < contadorProductos - 1; j++) {
+                    productos[j] = productos[j + 1];
+                }
+                productos[--contadorProductos] = null;
+                System.out.println("Producto eliminado correctamente.");
+                return;
+            }
+        }
+        System.out.println("Producto no encontrado.");
+    }
+
+    public void mostrarValorTotalInventario() {
+        double valorTotal = 0;
+        for (int i = 0; i < contadorProductos; i++) {
+            valorTotal += productos[i].stock * productos[i].precio;
+        }
+        System.out.printf("El valor total del inventario es: %.2f\n", valorTotal);
+    }
+
+    public void informeRoturaStock() {
+        System.out.println("\nInforme de rotura de stock:");
+        for (int i = 0; i < contadorProductos; i++) {
+            if (productos[i].stock < STOCK_SEGURIDAD) {
+                System.out.println("Producto: " + productos[i].nombre + " - Stock: " + productos[i].stock);
+            }
+        }
+    }
 }
