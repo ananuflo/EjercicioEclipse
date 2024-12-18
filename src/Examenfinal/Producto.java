@@ -3,10 +3,11 @@ package Examenfinal;
 public class Producto {
 
 	
-	private static String nombre;
+	static String nombre;
 	public static Object getNombre;
 	private static int cantidadDispo;
-	private double precio;
+	double precio;
+	public Object stock;
 	
 	//Constructor 1 por defecto
 	public Producto() {
@@ -47,6 +48,10 @@ public class Producto {
 	
 		public static void totalInventario(int cantidad) {
 			cantidad += cantidadDispo;
+		}
+		public void mostrarMenu() {
+			// TODO Auto-generated method stub
+			
 		}
 	
 		

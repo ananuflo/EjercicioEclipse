@@ -39,6 +39,11 @@ public class ConcertSala {
 		return "ConcertSala [zona=" + zona + ", cantidad=" + cantidad + "]";
 	}
 
+	public void mostrarMenu() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	
 	
